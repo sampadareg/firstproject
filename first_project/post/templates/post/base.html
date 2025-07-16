@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}My Website{% endblock %}</title>
+  
+  <!-- Static CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo">MySite</div>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="{% url 'post-list' %}">Posts</a></li>
+        </ul>
+        <div class="auth-status">
+   {% if user.is_authenticated %}
+           Logged in as <strong>{{ user.username }}</strong> |
+  <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+  <a href="{% url 'auth-home' %}">Login</a>
+    {% endif %} 
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}
+    <!-- Page-specific content will be injected here -->
+    {% endblock %}
+  </main>
+
+  <footer>
+    <p>&copy; 2025 My Website</p>
+  </footer>
+</body>
+</html>

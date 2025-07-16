@@ -1,0 +1,54 @@
+/* --- Navbar Styling --- */
+.navbar {
+  background: linear-gradient(90deg, #4a90e2, #0052cc);
+  padding: 15px 0;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar .container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar .nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-links li a:hover {
+  color: #ffd700;
+}
+
+.auth-status {
+  font-size: 14px;
+  color: white;
+}
+
+.auth-status strong {
+  color: #ffd700;
+}
+
+.login-btn {
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
+}
