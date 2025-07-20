@@ -50,12 +50,14 @@ class ListPostView(ListView):
     model = Post
     template_name = "post/list.html"
     context_object_name = "posts"
+    paginate_by = 5
 
     def get_queryset(self):
         search_value = self.request.GET.get('search', '')
         if search_value:
             return Post.objects.filter(body__icontains=search_value)
         return Post.objects.all()
+    
     # optional, for your template to use
     
     
