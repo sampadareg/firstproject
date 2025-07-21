@@ -21,6 +21,19 @@
       </li>
     {% endfor %}
   </ul>
+  <p>
+    {% for i in total_pages %}
+    <a href="?page={{ i|add:1 }}">
+      {% if i == current_page %}
+          <span style="font-size: 50px;">{{ i|add:1}}</span>
+          {% else %}
+          <span>{{ i|add:1 }}</span>
+      
+    </a>
+    {% endif %}
+  </a>
+  {% endfor %}
+</p>
 {% else %}
   <p>No posts found.</p>
 {% endif %}

@@ -8,13 +8,12 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-
 USER = get_user_model()
 
 def list_post(request):
     posts = Post.objects.all()
     return render(
-        request, 
+        request,
         'post/list.html',
         context={
             "posts": posts,
@@ -42,40 +41,36 @@ def delete_post(request, id):
     post.delete()
     return redirect(reverse('list-post'))
 
-
-from django.views.generic import ListView
-from .models import Post
-
-#class ListPostView(ListView):
- #   model = Post
-  #  template_name = "post/list.html"
-   # context_object_name = "posts"
-    #paginate_by = 5
-
-    #def get_queryset(self):
-     #   search_value = self.request.GET.get('search', '')
-      #  current_page = self.request.GET.get("page")
-       # if search_value:
-        #    return Post.objects.filter(body__icontains=search_value)
-        #return Post.objects.all()
 class ListPostView(LoginRequiredMixin, ListView):
-    def get_context_data(self, **kwargs):
-     template_name = "post/list.html"
-     context_object_name = "posts"
-    
-    def get_queryset(self):
-        search = self.request.GET.get("search",'')
-        current_user =  self.request.user
-        search_filter = {}
-        #current_page = self.request.GET.get("page")
-       
-        if search:
-            search_filter.update({"body__icontains": search} )
-        posts = Post.objects.filter(**search_filter)
-        return posts
+    template_name = "post/list.html"
+    context_object_name = "posts"
 
-    
-    # optional, for your template to use
-    
-    
-    
+    def get_queryset(self):
+        search = self.request.GET.get("search", '')
+        search_filter = {}
+
+        if search:
+            search_filter.update({"body__icontains": search})
+
+        return Post.objects.filter(**search_filter).order_by("id")
+
+    def get_context_data(self, **kwargs):
+        from math import ceil
+
+        current_page = int(self.request.GET.get("page", 1))
+        all_posts = self.get_queryset()
+        total_posts = all_posts.count()
+        posts_per_page = 4
+
+        start = (current_page - 1) * posts_per_page
+        end = current_page * posts_per_page
+        posts = all_posts[start:end]
+
+        total_pages = ceil(total_posts / posts_per_page)
+
+        context = {
+            "posts": posts,
+            "total_pages": range(total_pages),
+            "current_page": current_page - 1,
+        }
+        return context
