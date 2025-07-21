@@ -25,27 +25,5 @@
   <p>No posts found.</p>
 {% endif %}
 
-<!-- Move this pagination block inside -->
-<div class="pagination">
-  <span>
-    {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Previous</a>
-    {% endif %}
-  </span>
-
-  {% for num in page_obj.paginator.page_range %}
-    {% if page_obj.number == num %}
-      <strong>{{ num }}</strong>
-    {% else %}
-      <a href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
-    {% endif %}
-  {% endfor %}
-
-  <span>
-    {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
-    {% endif %}
-  </span>
-</div>
 
 {% endblock %}

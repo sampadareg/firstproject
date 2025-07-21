@@ -46,17 +46,34 @@ def delete_post(request, id):
 from django.views.generic import ListView
 from .models import Post
 
-class ListPostView(ListView):
-    model = Post
-    template_name = "post/list.html"
-    context_object_name = "posts"
-    paginate_by = 5
+#class ListPostView(ListView):
+ #   model = Post
+  #  template_name = "post/list.html"
+   # context_object_name = "posts"
+    #paginate_by = 5
 
+    #def get_queryset(self):
+     #   search_value = self.request.GET.get('search', '')
+      #  current_page = self.request.GET.get("page")
+       # if search_value:
+        #    return Post.objects.filter(body__icontains=search_value)
+        #return Post.objects.all()
+class ListPostView(LoginRequiredMixin, ListView):
+    def get_context_data(self, **kwargs):
+     template_name = "post/list.html"
+     context_object_name = "posts"
+    
     def get_queryset(self):
-        search_value = self.request.GET.get('search', '')
-        if search_value:
-            return Post.objects.filter(body__icontains=search_value)
-        return Post.objects.all()
+        search = self.request.GET.get("search",'')
+        current_user =  self.request.user
+        search_filter = {}
+        #current_page = self.request.GET.get("page")
+       
+        if search:
+            search_filter.update({"body__icontains": search} )
+        posts = Post.objects.filter(**search_filter)
+        return posts
+
     
     # optional, for your template to use
     
