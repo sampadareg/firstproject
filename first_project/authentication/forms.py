@@ -16,3 +16,8 @@ class LoginForm(forms.Form):
             'placeholder': 'Password'
         })
     )
+from authentication.models import Profile
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["User", "date_of_birth","position"]
